@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    resources :products
+    resources :categories
+  end
+  devise_for :admins
 
-  root to: "home#index"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -9,5 +13,11 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "home#index"
+
+  authenticated :admin_user do
+    root to: "admin#index", as: :admin_root
+  end
+
+  get "admin" => "admin#index"
 end
